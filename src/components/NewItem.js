@@ -1,27 +1,28 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {inject} from "mobx-react";
 
+@inject('itemList')
 class NewItem extends Component {
-  state = { value: '' };
+  state = {value: ''};
 
   handleChange = event => {
-    // Do something when the state of this input changes.
+    const {value} = event.target;
+    this.setState({value});
   };
 
   handleSubmit = event => {
-    const { onSubmit } = this.props;
-    const { value } = this.state;
+    const {itemList} = this.props;
+    const {value} = this.state;
 
     event.preventDefault();
 
-    console.log({ onSubmit, value });
+    itemList.addItem(value);
 
-    // Do something when a new value is submitted.
-
-    // Reset the state of the component.
+    this.setState({value: ''});
   };
 
   render() {
-    const { value } = this.state;
+    const {value} = this.state;
 
     return (
       <form className="NewItem" onSubmit={this.handleSubmit}>
